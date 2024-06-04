@@ -2,7 +2,7 @@ from sklearn import datasets
 wine = datasets.load_wine()
 print("Features: ", wine.feature_names)
 print("Labels: ", wine.target_names)
-wine.data.shape
+print(wine.data.shape)
 print(wine.data[0:5])
 print(wine.target)
 from sklearn.model_selection import train_test_split
