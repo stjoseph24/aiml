@@ -1,0 +1,33 @@
+class InferenceEngine:
+    def __init__(self, knowledge_base):
+        self.knowledge_base = knowledge_base
+
+    def backward_chaining(self, goal):
+        if goal in self.knowledge_base:
+            return True
+
+        for rule in self.knowledge_base:
+            if rule.consequent == goal:
+                if self.backward_chaining(rule.antecedent):
+                    return True
+        return False
+
+class Rule:
+    def __init__(self, antecedent, consequent):
+        self.antecedent = antecedent
+        self.consequent = consequent
+
+
+knowledge_base = [
+    Rule("bird(x)", "can_fly(x)"),
+    Rule("penguin(x)", "bird(x)"),
+    Rule("can_swim(x)", "penguin(x)")
+]
+
+
+inference_engine = InferenceEngine(knowledge_base)
+
+can_fly = inference_engine.backward_chaining("can_fly(penguin)")
+
+print(can_fly)
+

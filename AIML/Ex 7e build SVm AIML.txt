@@ -1,0 +1,26 @@
+import pandas
+from sklearn.model_selection import train_test_split 
+from sklearn.svm import SVC
+from sklearn.metrics import confusion_matrix
+
+data = pandas.read_csv("vector.csv") 
+print("Input: ")
+print(data.head(10))
+
+training_set, test_set = train_test_split(data, test_size = 0.3, random_state=1)
+
+x_train = training_set.iloc[:,0:2].values
+y_train = training_set.iloc[:,2].values
+x_test = test_set.iloc[:,0:2].values
+ y_test = test_set.iloc[:,2].values
+
+classifier = SVC(kernel='linear', random_state=1) 
+classifier.fit(x_train, y_train)
+y_pred = classifier.predict(x_test) 
+test_set["prediction"] = y_pred 
+print("Output")
+print(test_set)
+
+cm = confusion_matrix(y_test, y_pred)
+accuracy = float(cm.diagonal().sum()/len(y_test)) 
+print("\nAccuracy of SVM for the given dataset: ", accuracy)

@@ -1,0 +1,62 @@
+from sklearn.model_selection import train_test_split 
+from sklearn.datasets import make_moons
+from sklearn.linear_model import LogisticRegression 
+from sklearn.svm import SVC
+from sklearn.ensemble import RandomForestClassifier 
+from sklearn.ensemble import VotingClassifier
+from sklearn.metrics import accuracy_score
+
+
+X, y = make_moons(n_samples=500, noise=0.30) X_train, X_test, y_train, y_test = train_test_split(X, y)
+
+
+log = LogisticRegression()
+rnd = RandomForestClassifier(n_estimators=100) svm = SVC()
+voting = VotingClassifier(
+estimators=[('logistics_regression', log), ('random_forest', rnd), ('support_vector_machine', svm)], voting='hard')
+
+
+voting.fit(X_train, y_train)
+
+
+for clf in (log, rnd, svm, voting): clf.fit(X_train, y_train) 
+y_pred = clf.predict(X_test)
+print(clf. class   .	name , accuracy_score(y_test, y_pred))
+
+
+from sklearn.ensemble import BaggingClassifier 
+from sklearn.tree import DecisionTreeClassifier 
+from sklearn.metrics import accuracy_score
+
+bagging_clf = BaggingClassifier( DecisionTreeClassifier(), n_estimators=250, max_samples=100, bootstrap=True, random_state=101)
+
+
+bagging_clf.fit(X_train, y_train)
+
+y_pred = bagging_clf.predict(X_test) 
+print(accuracy_score(y_test, y_pred))
+
+
+from sklearn.ensemble import AdaBoostClassifier 
+adaboost_clf = AdaBoostClassifier(
+DecisionTreeClassifier(max_depth=1), n_estimators=200, algorithm="SAMME.R", learning_rate=0.5, random_state=42)
+
+adaboost_clf.fit(X_train, y_train)
+
+
+y_pred = adaboost_clf.predict(X_test) 
+accuracy_score(y_test, y_pred)
+
+Output:
+
+
+LogisticRegression 0.848
+RandomForestClassifier 0.88
+SVC 0.896
+VotingClassifier 0.896
+
+#For BaggingClassifier
+0.888
+
+#For AdaBoostClassifier
+0.864

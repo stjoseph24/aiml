@@ -1,0 +1,8 @@
+
+import statsmodels.api as sm
+import pandas as pd
+data = pd.read_csv('pima_diabetes.csv', index_col = 0) 
+Xtrain = data[['Glucose', 'BloodPressure', 'SkinThickness', 'Insulin', 'BMI', 'DiabetesPedigreeFunction','Age']]
+ytrain = data[['Outcome']]
+log_reg = sm.Logit(ytrain, Xtrain).fit()
+print(log_reg.summary())

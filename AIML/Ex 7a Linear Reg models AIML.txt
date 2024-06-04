@@ -1,0 +1,19 @@
+import pandas as pd
+import statsmodels.api as sm
+data = pd.read_csv(“pima_diabetes.csv")
+data.corr()
+y1 = data['Glucose']
+x1 = data[['Insulin']]
+x1 = sm.add_constant(x1)
+model1 = sm.OLS(y1, x1).fit()
+print(model1.summary())
+y2 = data['Age']
+x2 = data['Pregnancies']
+x2 = sm.add_constant(x2)
+model2 = sm.OLS(y2, x2).fit() 
+print(model2.summary())
+y3 = data['SkinThickness'] 
+x3 = data[['BMI']]
+x3 = sm.add_constant(x3)
+Model3 = sm.OLS(y3, x3).fit()
+print(model3.summary())
